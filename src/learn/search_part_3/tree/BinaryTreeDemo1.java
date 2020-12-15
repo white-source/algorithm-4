@@ -2,6 +2,9 @@ package learn.search_part_3.tree;
 
 import edu.princeton.cs.algs4.Stack;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  *
  */
@@ -143,7 +146,7 @@ public class BinaryTreeDemo1 {
 
     public void visted(Node subTree) {
         subTree.isVisted = true;
-        System.out.println("key:" + subTree.key + "--name" + subTree.data);
+        System.out.println("key:" + subTree.key + "--name:" + subTree.data);
     }
 
     //前序遍历
@@ -229,10 +232,27 @@ public class BinaryTreeDemo1 {
             stack.push(p);
             p = p.rightChild;
 
-
         }
-
     }
+
+
+    /**
+     * @param root 树根节点
+     *             层序遍历二叉树，用队列实现，
+     *             先将根节点入队列，只要队列不为空，然后出队列，并访问，接着讲访问节点的左右子树依次入队列
+     */
+    public void levelTravel(Node root) {
+        if (root == null) return;
+        Queue<Node> q = new LinkedList<>();
+        q.add(root);
+        while (!q.isEmpty()) {
+            Node temp = q.poll();
+            visted(temp);
+            if (temp.leftChild != null) q.add(temp.leftChild);
+            if (temp.rightChild != null) q.add(temp.rightChild);
+        }
+    }
+
 
     public static void main(String[] args) {
         BinaryTreeDemo1 bt = new BinaryTreeDemo1();
@@ -257,6 +277,9 @@ public class BinaryTreeDemo1 {
 
         System.out.println("***非递归实现****(后序遍历)[DEBFCA]遍历*****************");
         bt.nonRecPostOrder(bt.root);
+
+        System.out.println("***非递归实现****(层序遍历)[DEBFCA]遍历*****************");
+        bt.levelTravel(bt.root);
 
     }
 
